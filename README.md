@@ -1,6 +1,8 @@
 nomad
 =====
 
+[![Ansible Role](https://img.shields.io/ansible/role/5300.svg)](https://galaxy.ansible.com/list#/roles/5300)
+
 Installs Nomad
 
 Requirements
