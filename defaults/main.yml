@@ -1,2 +1,5 @@
 ---
 # defaults file for nomad
+
+nomad_version: 0.1.0
+nomad_sha256sum: 6d48846e40a44449f2b84eb37f32859eff98468ebffef3b4475d7a060f14fa32

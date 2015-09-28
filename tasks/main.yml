@@ -1,2 +1,27 @@
 ---
 # tasks file for nomad
+
+- name: Include distribution specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: nomad
+
+- include: CentOS.yml
+  when: ansible_distribution == "CentOS"
+  tags: nomad
+
+- include: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+  tags: nomad
+
+- name: Download Nomad
+  get_url: >
+    url={{ nomad_url }}
+    dest={{ nomad_download_dir }}/nomad.zip
+    sha256sum={{ nomad_sha256sum }}
+  tags: nomad
+
+- name: Unzip Nomad to installation directory
+  command: unzip {{ nomad_download_dir }}/nomad.zip -d {{ nomad_install_dir }}
+  args:
+    creates: "{{ nomad_install_dir }}/nomad"
+  tags: nomad
