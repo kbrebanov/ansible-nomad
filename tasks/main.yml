@@ -25,3 +25,12 @@
   args:
     creates: "{{ nomad_install_dir }}/nomad"
   tags: nomad
+
+- name: Create Nomad configuration directory
+  file: >
+    path={{ nomad_config_dir }}
+    owner=root
+    group=root
+    mode=0755
+    state=directory
+  tags: nomad
