@@ -1,0 +1,18 @@
+atlas {
+{% if nomad_atlas_infrastructure and nomad_atlas %}
+  infrastructure = "{{ nomad_atlas_infrastructure }}"
+{% endif %}
+{% if nomad_atlas_token and nomad_atlas %}
+  token = "{{ nomad_atlas_token }}"
+{% endif %}
+{% if nomad_atlas_join and nomad_atlas %}
+{% if nomad_atlas_join %}
+  join = true
+{% else %}
+  join = false
+{% endif %}
+{% endif %}
+{% if nomad_atlas_endpoint and nomad_atlas %}
+  endpoint = "{{ nomad_atlas_endpoint }}"
+{% endif %}
+}

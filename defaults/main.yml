@@ -3,3 +3,51 @@
 
 nomad_version: 0.1.0
 nomad_sha256sum: 6d48846e40a44449f2b84eb37f32859eff98468ebffef3b4475d7a060f14fa32
+
+nomad_client: true
+nomad_server: false
+nomad_telemetry: false
+nomad_atlas: false
+
+nomad_region: "global"
+nomad_datacenter: "dc1"
+nomad_name: ''
+nomad_log_level: "INFO"
+nomad_bind_addr: "127.0.0.1"
+nomad_enable_debug: false
+nomad_ports_http: 4646
+nomad_ports_rpc: 4647
+nomad_ports_serf: 4648
+nomad_addresses_http: "{{ nomad_bind_addr }}"
+nomad_addresses_rpc: "{{ nomad_bind_addr }}"
+nomad_addresses_serf: "{{ nomad_bind_addr }}"
+nomad_advertise_rpc: "{{ nomad_bind_addr }}"
+nomad_advertise_serf: "{{ nomad_bind_addr }}"
+nomad_leave_on_interrupt: false
+nomad_leave_on_terminate: false
+nomad_enable_syslog: false
+nomad_syslog_facility: "LOCAL0"
+nomad_disable_update_check: false
+nomad_disable_anonymous_signature: false
+
+nomad_telemetry_statsite_address: ''
+nomad_telemetry_statsd_address: ''
+nomad_telemetry_disable_hostname: false
+
+nomad_server_bootstrap_expect: 3
+nomad_server_data_dir: "{{ nomad_data_dir }}/server"
+nomad_server_protocol_version: ''
+nomad_server_num_schedulers: "{{ ansible_processor_cores }}"
+nomad_server_enabled_schedulers: []
+
+nomad_client_state_dir: "{{ nomad_data_dir }}/client"
+nomad_client_alloc_dir: "{{ nomad_data_dir }}/alloc"
+nomad_client_servers: []
+nomad_client_node_id: ''
+nomad_client_node_class: ''
+nomad_client_meta: {}
+
+nomad_atlas_infrastructure: ''
+nomad_atlas_token: ''
+nomad_atlas_join: false
+nomad_atlas_endpoint: ''

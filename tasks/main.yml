@@ -13,6 +13,20 @@
   when: ansible_distribution == "Ubuntu"
   tags: nomad
 
+- name: Create Nomad group
+  group: name={{ nomad_group }} system=yes state=present
+  tags: nomad
+
+- name: Create Nomad user
+  user: >
+    name={{ nomad_user }}
+    shell=/bin/false
+    createhome=no
+    group={{ nomad_group }}
+    system=yes
+    state=present
+  tags: nomad
+
 - name: Download Nomad
   get_url: >
     url={{ nomad_url }}
@@ -33,4 +47,70 @@
     group=root
     mode=0755
     state=directory
+  tags: nomad
+
+- name: Create Nomad data directory
+  file: >
+    path={{ nomad_data_dir }}
+    owner=root
+    group=root
+    mode=0755
+    state=directory
+  tags: nomad
+
+- name: Create Nomad upstart configuration
+  template: >
+    src=nomad.conf.j2
+    dest=/etc/init/nomad.conf
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nomad
+  tags: nomad
+
+- name: Create Nomad configuration file
+  template: >
+    src=nomad.hcl.j2
+    dest={{ nomad_config_dir }}/nomad.hcl
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nomad
+  tags: nomad
+
+- name: Create Nomad server configuration file
+  template: >
+    src=server.hcl.j2
+    dest={{ nomad_config_dir }}/server.hcl
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nomad
+  when: nomad_server
+  tags: nomad
+
+- name: Create Nomad client configuration file
+  template: >
+    src=client.hcl.j2
+    dest={{ nomad_config_dir }}/client.hcl
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nomad
+  when: nomad_client
+  tags: nomad
+
+- name: Create Nomad Atlas configuration file
+  template: >
+    src=atlas.hcl.j2
+    dest={{ nomad_config_dir }}/atlas.hcl
+    owner=root
+    group=root
+    mode=0644
+  notify: restart nomad
+  when: nomad_atlas
+  tags: nomad
+
+- name: Ensure Nomad service is started and enabled on boot
+  service: name={{ nomad_service_name }} state=started enabled=yes
   tags: nomad

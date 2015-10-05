@@ -1,0 +1,30 @@
+server {
+{% if nomad_server %}
+  enabled = true
+{% else %}
+  enabled = false
+{% endif %}
+{% if nomad_server_bootstrap_expect and nomad_server %}
+  bootstrap_expect = {{ nomad_server_bootstrap_expect }}
+{% endif %}
+{% if nomad_server_data_dir and nomad_server %}
+  data_dir = "{{ nomad_server_data_dir }}"
+{% endif %}
+{% if nomad_server_protocol_version and nomad_server %}
+  protocol_version = {{ nomad_server_protocol_version }}
+{% endif %}
+{% if nomad_server_num_schedulers and nomad_server %}
+  num_schedulers = {{ nomad_server_num_schedulers }}
+{% endif %}
+{% if nomad_server_enabled_schedulers and nomad_server %}
+  enabled_schedulers = [
+{% for scheduler in nomad_server_enabled_schedulers %}
+{% if not loop.last %}
+    "{{ scheduler }}",
+{% else %}
+    "{{ scheduler }}"
+{% endif %}
+{% endfor %}
+  ]
+{% endif %}
+}

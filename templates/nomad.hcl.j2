@@ -1,0 +1,82 @@
+region = "{{ nomad_region }}"
+datacenter = "{{ nomad_datacenter }}"
+{% if nomad_name %}
+name = "{{ nomad_name }}"
+{% endif %}
+data_dir = "{{ nomad_data_dir }}"
+log_level = "{{ nomad_log_level }}"
+bind_addr = "{{ nomad_bind_addr }}"
+{% if nomad_enable_debug %}
+enable_debug = true
+{% else %}
+enable_debug = false
+{% endif %}
+ports {
+  http = {{ nomad_ports_http }}
+{% if nomad_ports_rpc and nomad_server %}
+  rpc = {{ nomad_ports_rpc }}
+{% endif %}
+{% if nomad_ports_serf and nomad_server %}
+  serf = {{ nomad_ports_serf }}
+{% endif %}
+}
+addresses {
+  http = "{{ nomad_addresses_http }}"
+{% if nomad_addresses_rpc and nomad_server %}
+  rpc = "{{ nomad_addresses_rpc }}"
+{% endif %}
+{% if nomad_addresses_serf and nomad_server %}
+  serd = "{{ nomad_addresses_serf }}"
+{% endif %}
+}
+advertise {
+{% if nomad_advertise_rpc and nomad_server %}
+  rpc = "{{ nomad_advertise_rpc }}"
+{% endif %}
+{% if nomad_addresses_serf and nomad_server %}
+  serf = "{{ nomad_addresses_serf }}"
+{% endif %}
+}
+{% if nomad_telemetry %}
+telemetry {
+{% if nomad_telemetry_statsite_address %}
+  statsite_address = "{{ nomad_telemetry_statsite_address }}"
+{% endif %}
+{% if nomad_telemetry_statsd_address %}
+  statsd_address = "{{ nomad_telemetry_statsd_address }}"
+{% endif %}
+{% if nomad_telemetry_disable_hostname %}
+  disable_hostname = true
+{% else %}
+  disable_hostname = false
+{% endif %}
+}
+{% endif %}
+{% if nomad_leave_on_interrupt %}
+leave_on_interrupt = true
+{% else %}
+leave_on_interrupt = false
+{% endif %}
+{% if nomad_leave_on_terminate %}
+leave_on_terminate = true
+{% else %}
+leave_on_terminate = false
+{% endif %}
+{% if nomad_enable_syslog %}
+enable_syslog = true
+{% else %}
+enable_syslog = false
+{% endif %}
+{% if nomad_syslog_facility and nomad_enable_syslog %}
+syslog_facility = "{{ nomad_syslog_facility }}"
+{% endif %}
+{% if nomad_disable_update_check %}
+disable_update_check = true
+{% else %}
+disable_update_check = false
+{% endif %}
+{% if nomad_disable_anonymous_signature %}
+disable_anonymous_signature = true
+{% else %}
+disable_anonymous_signature = false
+{% endif %}

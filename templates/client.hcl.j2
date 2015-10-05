@@ -1,0 +1,37 @@
+client {
+{% if nomad_client %}
+  enabled = true
+{% else %}
+  enabled = false
+{% endif %}
+{% if nomad_client_state_dir and nomad_client %}
+  state_dir = "{{ nomad_client_state_dir }}"
+{% endif %}
+{% if nomad_client_alloc_dir and nomad_client %}
+  alloc_dir = "{{ nomad_client_alloc_dir }}"
+{% endif %}
+{% if nomad_client_servers and nomad_client %}
+  servers = [
+{% for server in nomad_client_servers %}
+{% if not loop.last %}
+    "{{ server }}",
+{% else %}
+    "{{ server }}"
+{% endif %}
+{% endfor %}
+  ]
+{% endif %}
+{% if nomad_client_node_id and nomad_client %}
+  node_id = "{{ nomad_client_node_id }}"
+{% endif %}
+{% if nomad_client_node_class and nomad_client %}
+  node_class = "{{ nomad_client_node_class }}"
+{% endif %}
+{% if nomad_client_meta and nomad_client %}
+  meta {
+{% for meta in nomad_client %}
+    "{{ meta }}" = "{{ nomad_client_meta[meta] }}"
+{% endfor %}
+  }
+{% endif %}
+}

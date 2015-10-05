@@ -4,4 +4,12 @@
 nomad_url: https://dl.bintray.com/mitchellh/nomad/nomad_{{ nomad_version }}_linux_amd64.zip
 nomad_download_dir: /root
 nomad_install_dir: /usr/local/bin
+nomad_data_dir: /var/lib/nomad
 nomad_config_dir: /etc/nomad.d
+nomad_pid_file: /var/run/nomad.pid
+nomad_log_file: /var/log/nomad.log
+nomad_server_user: nomad
+nomad_server_group: nomad
+nomad_client_user: root
+nomad_client_group: root
+nomad_service_name: nomad
