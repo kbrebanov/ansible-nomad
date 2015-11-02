@@ -12,10 +12,10 @@ kill timeout 10
 
 script
 {% if nomad_client and not nomad_server %}
-    exec start-stop-daemon --start --chuid {{ nomad_client_user }} --group {{ nomad_client_group }} --pidfile {{ nomad_pid_file }} --make-pidfile --exec {{ nomad_install_dir }}/nomad -- -client -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1
+    exec start-stop-daemon --start --chuid {{ nomad_client_user }} --group {{ nomad_client_group }} --pidfile {{ nomad_pid_file }} --make-pidfile --exec {{ nomad_install_dir }}/nomad -- agent -client -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1
 {% endif %}
 {% if nomad_server and not nomad_client %}
-    exec start-stop-daemon --start --chuid {{ nomad_server_user }} --group {{ nomad_server_group }} --pidfile {{ nomad_pid_file }} --make-pidfile --exec {{ nomad_install_dir }}/nomad -- -server -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1
+    exec start-stop-daemon --start --chuid {{ nomad_server_user }} --group {{ nomad_server_group }} --pidfile {{ nomad_pid_file }} --make-pidfile --exec {{ nomad_install_dir }}/nomad -- agent -server -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1
 {% endif %}
 end script
 

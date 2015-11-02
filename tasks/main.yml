@@ -14,17 +14,19 @@
   tags: nomad
 
 - name: Create Nomad group
-  group: name={{ nomad_group }} system=yes state=present
+  group: name={{ nomad_server_group }} system=yes state=present
+  when: nomad_server
   tags: nomad
 
 - name: Create Nomad user
   user: >
-    name={{ nomad_user }}
+    name={{ nomad_server_user }}
     shell=/bin/false
     createhome=no
-    group={{ nomad_group }}
+    group={{ nomad_server_group }}
     system=yes
     state=present
+  when: nomad_server
   tags: nomad
 
 - name: Download Nomad
