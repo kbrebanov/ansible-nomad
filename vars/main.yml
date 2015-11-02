@@ -1,7 +1,7 @@
 ---
 # vars file for nomad
 
-nomad_url: https://dl.bintray.com/mitchellh/nomad/nomad_{{ nomad_version }}_linux_amd64.zip
+nomad_url: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_amd64.zip
 nomad_download_dir: /root
 nomad_install_dir: /usr/local/bin
 nomad_data_dir: /var/lib/nomad
