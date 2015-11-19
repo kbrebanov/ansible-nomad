@@ -15,8 +15,8 @@ Role Variables
 
 | Name            | Default                                                          | Description                 |
 |-----------------|------------------------------------------------------------------|-----------------------------|
-| nomad_version   | 0.1.2                                                            | Version of Nomad to install |
-| nomad_sha256sum | 3335f7acb0d5eacaaa19aea37d128418ace18e6ef03d38de0c2c52ce831d7934 | SHA 256 checksum of package |
+| nomad_version   | 0.2.0                                                            | Version of Nomad to install |
+| nomad_sha256sum | f4525cbd99fd57ef607f9556be4f4bc39f82391947f40cc993538bba7da5bf90 | SHA 256 checksum of package |
 
 Dependencies
 ------------
