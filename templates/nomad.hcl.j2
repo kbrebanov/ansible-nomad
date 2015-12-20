@@ -30,11 +30,11 @@ addresses {
 {% endif %}
 }
 advertise {
-{% if nomad_advertise_rpc and nomad_server %}
-  rpc = "{{ nomad_advertise_rpc }}"
+{% if nomad_advertise_rpc and nomad_ports_rpc and nomad_server %}
+  rpc = "{{ nomad_advertise_rpc }}:{{ nomad_ports_rpc }}"
 {% endif %}
-{% if nomad_addresses_serf and nomad_server %}
-  serf = "{{ nomad_addresses_serf }}"
+{% if nomad_addresses_serf and nomad_ports_serf and nomad_server %}
+  serf = "{{ nomad_addresses_serf }}:{{ nomad_ports_serf }}"
 {% endif %}
 }
 {% if nomad_telemetry %}
