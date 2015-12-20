@@ -8,8 +8,8 @@ nomad_data_dir: /var/lib/nomad
 nomad_config_dir: /etc/nomad.d
 nomad_pid_file: /var/run/nomad.pid
 nomad_log_file: /var/log/nomad.log
-nomad_server_user: nomad
-nomad_server_group: nomad
+nomad_server_user: root
+nomad_server_group: root
 nomad_client_user: root
 nomad_client_group: root
 nomad_service_name: nomad
