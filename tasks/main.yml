@@ -14,16 +14,16 @@
   tags: nomad
 
 - name: Create Nomad group
-  group: name={{ nomad_server_group }} system=yes state=present
+  group: name={{ nomad_group }} system=yes state=present
   when: nomad_server
   tags: nomad
 
 - name: Create Nomad user
   user: >
-    name={{ nomad_server_user }}
+    name={{ nomad_user }}
     shell=/bin/false
     createhome=no
-    group={{ nomad_server_group }}
+    group={{ nomad_group }}
     system=yes
     state=present
   when: nomad_server
@@ -54,8 +54,8 @@
 - name: Create Nomad data directory
   file: >
     path={{ nomad_data_dir }}
-    owner=root
-    group=root
+    owner={{ nomad_user }}
+    group={{ nomad_group }}
     mode=0755
     state=directory
   tags: nomad
