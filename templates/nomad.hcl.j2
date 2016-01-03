@@ -26,7 +26,7 @@ addresses {
   rpc = "{{ nomad_addresses_rpc }}"
 {% endif %}
 {% if nomad_addresses_serf and nomad_server %}
-  serd = "{{ nomad_addresses_serf }}"
+  serf = "{{ nomad_addresses_serf }}"
 {% endif %}
 }
 advertise {
