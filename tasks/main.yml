@@ -1,6 +1,10 @@
 ---
 # tasks file for nomad
 
+- name: Check if both nomad_server and nomad_client set
+  fail: msg='nomad_server and nomad_client were both set. According to https://nomadproject.io/docs/agent/config.html, "Note that it is strongly recommended not to operate a node as both client and server".'
+  when: nomad_server and nomad_client
+
 - name: Include distribution specific variables
   include_vars: "{{ ansible_distribution }}.yml"
   tags: nomad
