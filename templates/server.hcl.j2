@@ -27,4 +27,38 @@ server {
 {% endfor %}
   ]
 {% endif %}
+{% if nomad_server_node_gc_threshold and nomad_server %}
+  node_gc_threshold = "{{ nomad_server_node_gc_threshold }}"
+{% endif %}
+{% if nomad_server_rejoin_after_leave and nomad_server %}
+  rejoin_after_leave = "{{ nomad_server_rejoin_after_leave }}"
+{% endif %}
+{% if nomad_server_retry_join and nomad_server %}
+  retry_join = [
+{% for node_address in nomad_server_retry_join %}
+{% if not loop.last %}
+    "{{ node_address }}",
+{% else %}
+    "{{ node_address }}"
+{% endif %}
+{% endfor %}
+  ]
+{% endif %}
+{% if nomad_server_retry_interval and nomad_server %}
+  retry_interval = "{{ nomad_server_retry_interval }}"
+{% endif %}
+{% if nomad_server_retry_max and nomad_server %}
+  retry_max = "{{ nomad_server_retry_max }}"
+{% endif %}
+{% if nomad_server_start_join and nomad_server %}
+  start_join = [
+{% for node_address in nomad_server_start_join %}
+{% if not loop.last %}
+    "{{ node_address }}",
+{% else %}
+    "{{ node_address }}"
+{% endif %}
+{% endfor %}
+  ]
+{% endif %}
 }

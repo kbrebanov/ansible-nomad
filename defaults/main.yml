@@ -39,6 +39,12 @@ nomad_server_data_dir: "{{ nomad_data_dir }}/server"
 nomad_server_protocol_version: ''
 nomad_server_num_schedulers: "{{ ansible_processor_cores }}"
 nomad_server_enabled_schedulers: []
+nomad_server_node_gc_threshold: ''
+nomad_server_rejoin_after_leave: ''
+nomad_server_retry_join: []
+nomad_server_retry_interval: 30s
+nomad_server_retry_max: 0
+nomad_server_start_join: []
 
 nomad_client_state_dir: "{{ nomad_data_dir }}/client"
 nomad_client_alloc_dir: "{{ nomad_data_dir }}/alloc"
