@@ -76,7 +76,8 @@ Example Playbook
 ----------------
 
 Install Nomad
-```
+
+```yaml
 - hosts: all
   roles:
     - { role: kbrebanov.nomad }
