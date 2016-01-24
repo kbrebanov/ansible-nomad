@@ -70,7 +70,7 @@ Role Variables
 Dependencies
 ------------
 
-- kbrebanov.unzip
+- [kbrebanov.unzip](https://github.com/kbrebanov/ansible-unzip)
 
 Example Playbook
 ----------------
