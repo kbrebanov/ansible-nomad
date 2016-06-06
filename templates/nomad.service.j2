@@ -1,0 +1,11 @@
+[Unit]
+Description=Nomad Agent
+After=network.target cloud-final.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nomad agent -config /etc/nomad.d
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
