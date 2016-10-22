@@ -1,9 +1,5 @@
 server {
-{% if nomad_server %}
-  enabled = true
-{% else %}
-  enabled = false
-{% endif %}
+  enabled = {{ nomad_server|lower }}
 {% if nomad_server_bootstrap_expect and nomad_server %}
   bootstrap_expect = {{ nomad_server_bootstrap_expect }}
 {% endif %}

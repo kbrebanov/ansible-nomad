@@ -6,11 +6,7 @@ atlas {
   token = "{{ nomad_atlas_token }}"
 {% endif %}
 {% if nomad_atlas_join and nomad_atlas %}
-{% if nomad_atlas_join %}
-  join = true
-{% else %}
-  join = false
-{% endif %}
+  join = {{ nomad_atlas_join }}
 {% endif %}
 {% if nomad_atlas_endpoint and nomad_atlas %}
   endpoint = "{{ nomad_atlas_endpoint }}"

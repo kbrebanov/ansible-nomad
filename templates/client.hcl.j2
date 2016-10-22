@@ -1,9 +1,5 @@
 client {
-{% if nomad_client %}
-  enabled = true
-{% else %}
-  enabled = false
-{% endif %}
+  enabled = {{ nomad_client|lower }}
 {% if nomad_client_state_dir and nomad_client %}
   state_dir = "{{ nomad_client_state_dir }}"
 {% endif %}

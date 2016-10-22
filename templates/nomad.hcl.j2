@@ -6,11 +6,8 @@ name = "{{ nomad_name }}"
 data_dir = "{{ nomad_data_dir }}"
 log_level = "{{ nomad_log_level }}"
 bind_addr = "{{ nomad_bind_addr }}"
-{% if nomad_enable_debug %}
-enable_debug = true
-{% else %}
-enable_debug = false
-{% endif %}
+enable_debug = {{ nomad_enable_debug|lower }}
+
 ports {
   http = {{ nomad_ports_http }}
 {% if nomad_ports_rpc and nomad_server %}
@@ -45,38 +42,15 @@ telemetry {
 {% if nomad_telemetry_statsd_address %}
   statsd_address = "{{ nomad_telemetry_statsd_address }}"
 {% endif %}
-{% if nomad_telemetry_disable_hostname %}
-  disable_hostname = true
-{% else %}
-  disable_hostname = false
-{% endif %}
+  disable_hostname = {{ nomad_telemetry_disable_hostname }}
 }
 {% endif %}
-{% if nomad_leave_on_interrupt %}
-leave_on_interrupt = true
-{% else %}
-leave_on_interrupt = false
-{% endif %}
-{% if nomad_leave_on_terminate %}
-leave_on_terminate = true
-{% else %}
-leave_on_terminate = false
-{% endif %}
-{% if nomad_enable_syslog %}
-enable_syslog = true
-{% else %}
-enable_syslog = false
-{% endif %}
+
+leave_on_interrupt = {{ nomad_leave_on_interrupt|lower }}
+leave_on_terminate = {{ nomad_leave_on_terminate|lower }}
+enable_syslog = {{ nomad_enable_syslog|lower }}
 {% if nomad_syslog_facility and nomad_enable_syslog %}
 syslog_facility = "{{ nomad_syslog_facility }}"
 {% endif %}
-{% if nomad_disable_update_check %}
-disable_update_check = true
-{% else %}
-disable_update_check = false
-{% endif %}
-{% if nomad_disable_anonymous_signature %}
-disable_anonymous_signature = true
-{% else %}
-disable_anonymous_signature = false
-{% endif %}
+disable_update_check = {{ nomad_disable_update_check|lower }}
+disable_anonymous_signature = {{ nomad_disable_anonymous_signature|lower }}

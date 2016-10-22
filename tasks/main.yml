@@ -64,10 +64,10 @@
     state=directory
   tags: nomad
 
-- name: Create Nomad upstart configuration
+- name: Create Nomad systemd configuration
   template: >
-    src=nomad.conf.j2
-    dest=/etc/init/nomad.conf
+    src=nomad.service.j2
+    dest=/etc/systemd/system/nomad.service
     owner=root
     group=root
     mode=0644
