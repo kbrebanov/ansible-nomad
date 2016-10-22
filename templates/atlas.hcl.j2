@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 atlas {
 {% if nomad_atlas_infrastructure and nomad_atlas %}
   infrastructure = "{{ nomad_atlas_infrastructure }}"

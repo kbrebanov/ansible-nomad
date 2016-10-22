@@ -2,9 +2,17 @@
 # handlers file for nomad
 
 - name: restart nomad
-  service: name={{ nomad_service_name }} state=restarted
-  tags: nomad
+  become: yes
+  service:
+    name: "{{ nomad_service_name }}"
+    state: restarted
+  tags:
+    - nomad
 
 - name: reload nomad
-  service: name={{ nomad_service_name }} state=reloaded
-  tags: nomad
+  become: yes
+  service:
+    name: "{{ nomad_service_name }}"
+    state: reloaded
+  tags:
+    - nomad

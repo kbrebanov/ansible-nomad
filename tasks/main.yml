@@ -7,116 +7,154 @@
 
 - name: Include distribution specific variables
   include_vars: "{{ ansible_distribution }}.yml"
-  tags: nomad
+  tags:
+    - nomad
 
 - include: CentOS.yml
   when: ansible_distribution == "CentOS"
-  tags: nomad
+  tags:
+    - nomad
 
 - include: Ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Create Nomad group
-  group: name={{ nomad_group }} system=yes state=present
+  become: yes
+  group:
+    name: "{{ nomad_group }}"
+    system: yes
+    state: present
   when: nomad_server
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Create Nomad user
-  user: >
-    name={{ nomad_user }}
-    shell=/bin/false
-    createhome=no
-    group={{ nomad_group }}
-    system=yes
-    state=present
+  become: yes
+  user:
+    name: "{{ nomad_user }}"
+    shell: /bin/false
+    createhome: no
+    group: "{{ nomad_group }}"
+    system: yes
+    state: present
   when: nomad_server
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Download Nomad
-  get_url: >
-    url={{ nomad_url }}
-    dest={{ nomad_download_dir }}/nomad.zip
-    sha256sum={{ nomad_sha256sum }}
-  tags: nomad
+  become: yes
+  get_url:
+    url: "{{ nomad_url }}"
+    dest: "{{ nomad_download_dir }}/nomad.zip"
+    sha256sum: "{{ nomad_sha256sum }}"
+  tags:
+    - nomad
 
 - name: Unzip Nomad to installation directory
+  become: yes
   command: unzip {{ nomad_download_dir }}/nomad.zip -d {{ nomad_install_dir }}
   args:
     creates: "{{ nomad_install_dir }}/nomad"
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Create Nomad configuration directory
-  file: >
-    path={{ nomad_config_dir }}
-    owner=root
-    group=root
-    mode=0755
-    state=directory
-  tags: nomad
+  become: yes
+  file:
+    path: "{{ nomad_config_dir }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  tags:
+    - nomad
 
 - name: Create Nomad data directory
-  file: >
-    path={{ nomad_data_dir }}
-    owner={{ nomad_user }}
-    group={{ nomad_group }}
-    mode=0755
-    state=directory
-  tags: nomad
+  become: yes
+  file:
+    path: "{{ nomad_data_dir }}"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: 0755
+    state: directory
+  tags:
+    - nomad
 
 - name: Create Nomad upstart configuration
-  template: >
-    src=nomad.conf.j2
-    dest=/etc/init/nomad.conf
-    owner=root
-    group=root
-    mode=0644
-  notify: restart nomad
-  tags: nomad
+  become: yes
+  template:
+    src: nomad.conf.j2
+    dest: /etc/init/nomad.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
+  tags:
+    - nomad
 
 - name: Create Nomad configuration file
-  template: >
-    src=nomad.hcl.j2
-    dest={{ nomad_config_dir }}/nomad.hcl
-    owner=root
-    group=root
-    mode=0644
-  notify: restart nomad
-  tags: nomad
+  become: yes
+  template:
+    src: nomad.hcl.j2
+    dest: "{{ nomad_config_dir }}/nomad.hcl"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
+  tags:
+    - nomad
 
 - name: Create Nomad server configuration file
-  template: >
-    src=server.hcl.j2
-    dest={{ nomad_config_dir }}/server.hcl
-    owner=root
-    group=root
-    mode=0644
-  notify: restart nomad
+  become: yes
+  template:
+    src: server.hcl.j2
+    dest: "{{ nomad_config_dir }}/server.hcl"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
   when: nomad_server
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Create Nomad client configuration file
-  template: >
-    src=client.hcl.j2
-    dest={{ nomad_config_dir }}/client.hcl
-    owner=root
-    group=root
-    mode=0644
-  notify: restart nomad
+  become: yes
+  template:
+    src: client.hcl.j2
+    dest: "{{ nomad_config_dir }}/client.hcl"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
   when: nomad_client
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Create Nomad Atlas configuration file
-  template: >
-    src=atlas.hcl.j2
-    dest={{ nomad_config_dir }}/atlas.hcl
-    owner=root
-    group=root
-    mode=0644
-  notify: restart nomad
+  become: yes
+  template:
+    src: atlas.hcl.j2
+    dest: "{{ nomad_config_dir }}/atlas.hcl"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
   when: nomad_atlas
-  tags: nomad
+  tags:
+    - nomad
 
 - name: Ensure Nomad service is started and enabled on boot
-  service: name={{ nomad_service_name }} state=started enabled=yes
-  tags: nomad
+  become: yes
+  service:
+    name: "{{ nomad_service_name }}"
+    state: started
+    enabled: yes
+  tags:
+    - nomad

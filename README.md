@@ -1,20 +1,20 @@
 nomad
 =====
 
-[![Ansible Role](https://img.shields.io/ansible/role/5300.svg)](https://galaxy.ansible.com/list#/roles/5300)
+[![Build Status](https://travis-ci.org/kbrebanov/ansible-nomad.svg?branch=master)](https://travis-ci.org/kbrebanov/ansible-nomad)
 
-Installs Nomad
+Installs and configures Nomad
 
 Requirements
 ------------
 
-This role requires Ansible 1.4 or higher.
+This role requires Ansible 1.9 or higher.
 
 Role Variables
 --------------
 
 | Name                              | Default                                                          | Description                                                                                                                                                                                                                                |
-|-----------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|:----------------------------------|:-----------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | nomad_version                     | 0.4.1                                                            | Version of Nomad to install                                                                                                                                                                                                                |
 | nomad_sha256sum                   | 0cdb5dd95c918c6237dddeafe2e9d2049558fea79ed43eacdfcd247d5b093d67 | SHA 256 checksum of package                                                                                                                                                                                                                |
 | nomad_client                      | true                                                             | Install Nomad client (nomad_server must be false)                                                                                                                                                                                          |
@@ -80,7 +80,7 @@ Install Nomad
 ```yaml
 - hosts: all
   roles:
-    - { role: kbrebanov.nomad }
+    - kbrebanov.nomad
 ```
 
 License
