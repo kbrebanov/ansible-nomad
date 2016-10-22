@@ -43,12 +43,51 @@
   tags:
     - nomad
 
+- name: Check if Nomad is already installed
+  stat:
+    path: "{{ nomad_install_dir }}/nomad"
+  register: nomad_bin
+  changed_when: false
+  tags:
+    - nomad
+
+- name: Get currently installed Nomad version
+  shell: "{{ nomad_install_dir }}/nomad version | grep '^Nomad' | cut -d' ' -f2 | sed -e 's/^v//'"
+  register: installed_nomad_version
+  when: nomad_bin.stat.exists
+  changed_when: false
+  tags:
+    - nomad
+
+- name: Get list of installed Nomad files
+  shell: ls -1 {{ nomad_install_dir }}/nomad*
+  register: nomad_files
+  when: not installed_nomad_version | skipped
+  changed_when: false
+  tags:
+    - nomad
+
 - name: Download Nomad
   become: yes
   get_url:
     url: "{{ nomad_url }}"
     dest: "{{ nomad_download_dir }}/nomad.zip"
     sha256sum: "{{ nomad_sha256sum }}"
+  tags:
+    - nomad
+
+- name: Remove Nomad files if version is different
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ nomad_files.stdout_lines | default([]) }}"
+  when:
+    - not installed_nomad_version | skipped
+    - installed_nomad_version.stdout | version_compare(nomad_version, operator='lt', strict=True)
+  notify:
+    - restart nomad
   tags:
     - nomad
 
