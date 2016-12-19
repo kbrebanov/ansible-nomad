@@ -85,7 +85,7 @@
     - "{{ nomad_files.stdout_lines | default([]) }}"
   when:
     - not installed_nomad_version | skipped
-    - installed_nomad_version.stdout | version_compare(nomad_version, operator='lt', strict=True)
+    - installed_nomad_version.stdout != nomad_version
   notify:
     - restart nomad
   tags:
@@ -123,6 +123,7 @@
 
 - name: Create Nomad upstart configuration
   become: yes
+  when: nomad_use_upstart
   template:
     src: nomad.conf.j2
     dest: /etc/init/nomad.conf
@@ -130,6 +131,21 @@
     group: root
     mode: 0644
   notify:
+    - restart nomad
+  tags:
+    - nomad
+
+- name: Create Nomad systemd configuration
+  become: yes
+  when: nomad_use_systemd
+  template:
+    src: nomad.service.j2
+    dest: /etc/systemd/system/nomad.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
     - restart nomad
   tags:
     - nomad

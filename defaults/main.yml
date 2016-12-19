@@ -1,14 +1,21 @@
 ---
-# defaults file for nomad
 
-nomad_version: 0.4.1
-nomad_sha256sum: 0cdb5dd95c918c6237dddeafe2e9d2049558fea79ed43eacdfcd247d5b093d67
+nomad_version: 0.5.1
+nomad_sha256sum: f93fc55d0c68883a28198c9fab93887f535c00193fce80b4be89cd09b6bbdb94
+nomad_env_file: /etc/profile.d/nomad.sh
+
+nomad_use_upstart: true
+nomad_use_systemd: false
 
 nomad_client: true
 nomad_server: false
 nomad_telemetry: false
 nomad_atlas: false
+nomad_tls: false
+nomad_consul: false
+nomad_vault: false
 
+# General parameters
 nomad_region: "global"
 nomad_datacenter: "dc1"
 nomad_name: ''
@@ -21,6 +28,7 @@ nomad_ports_serf: 4648
 nomad_addresses_http: "{{ nomad_bind_addr }}"
 nomad_addresses_rpc: "{{ nomad_bind_addr }}"
 nomad_addresses_serf: "{{ nomad_bind_addr }}"
+nomad_advertise_http: "{{ nomad_bind_addr }}"
 nomad_advertise_rpc: "{{ nomad_bind_addr }}"
 nomad_advertise_serf: "{{ nomad_bind_addr }}"
 nomad_leave_on_interrupt: false
@@ -29,11 +37,30 @@ nomad_enable_syslog: false
 nomad_syslog_facility: "LOCAL0"
 nomad_disable_update_check: false
 nomad_disable_anonymous_signature: false
+nomad_http_api_response_headers: {}
 
+# Telemetry stanza
+nomad_telemetry_disable_hostname: false
+nomad_telemetry_publish_allocation_metrics: false
+nomad_telemetry_publish_node_metrics: false
 nomad_telemetry_statsite_address: ''
 nomad_telemetry_statsd_address: ''
-nomad_telemetry_disable_hostname: false
+nomad_telemetry_datadog_address: ''
+nomad_telemetry_circonus_api_token: ''
+nomad_telemetry_circonus_api_app: "nomad"
+nomad_telemetry_circonus_api_url: "https://api.circonus.com/v2"
+nomad_telemetry_circonus_submission_interval: "10s"
+nomad_telemetry_circonus_submission_url: ''
+nomad_telemetry_circonus_check_id: ''
+nomad_telemetry_circonus_force_metric_activation: false
+nomad_telemetry_circonus_check_instance_id: ''
+nomad_telemetry_circonus_check_search_tag: ''
+nomad_telemetry_circonus_check_display_name: ''
+nomad_telemetry_circonus_check_tags: ''
+nomad_telemetry_circonus_broker_id: ''
+nomad_telemetry_circonus_broker_select_tag: ''
 
+# Server stanza
 nomad_server_bootstrap_expect: 3
 nomad_server_data_dir: "{{ nomad_data_dir }}/server"
 nomad_server_protocol_version: ''
@@ -45,15 +72,62 @@ nomad_server_retry_join: []
 nomad_server_retry_interval: 30s
 nomad_server_retry_max: 0
 nomad_server_start_join: []
+nomad_server_encrypt: ''
 
+# Client stanza
 nomad_client_state_dir: "{{ nomad_data_dir }}/client"
 nomad_client_alloc_dir: "{{ nomad_data_dir }}/alloc"
+nomad_client_max_kill_timeout: ''
 nomad_client_servers: []
 nomad_client_node_id: ''
 nomad_client_node_class: ''
 nomad_client_meta: {}
+nomad_client_chroot_env: {}
+nomad_client_options: {}
+nomad_client_network_interface: ''
+nomad_client_network_speed: ''
+nomad_client_reserved_cpu: ''
+nomad_client_reserved_memory: ''
+nomad_client_reserved_disk: ''
+nomad_client_reserved_ports: ''
 
+# Atlas stanza
 nomad_atlas_infrastructure: ''
 nomad_atlas_token: ''
 nomad_atlas_join: false
 nomad_atlas_endpoint: ''
+
+# TLS stanza
+nomad_tls_http: false
+nomad_tls_rpc: false
+nomad_tls_verify_server_hostname: false
+nomad_tls_ca_file: ''
+nomad_tls_cert_file: ''
+nomad_tls_key_file: ''
+
+# Consul stanza
+nomad_consul_address: "127.0.0.1:8500"
+nomad_consul_auth: ''
+nomad_consul_auto_advertise: true
+nomad_consul_checks_use_advertise: false
+nomad_consul_server_auto_join: true
+nomad_consul_server_service_name: "nomad"
+nomad_consul_client_auto_join: true
+nomad_consul_client_service_name: "nomad-client"
+nomad_consul_ssl: false
+nomad_consul_verify_ssl: true
+nomad_consul_token: ''
+nomad_consul_ca_file: ''
+nomad_consul_cert_file: ''
+nomad_consul_key_file: ''
+
+# Vault stanza
+nomad_vault_address: "https://127.0.0.1:8200"
+nomad_vault_allow_unauthenticated: true
+nomad_vault_tls_skip_verify: false
+nomad_vault_tls_server_name: ''
+nomad_vault_token: ''
+nomad_vault_task_token_ttl: ''
+nomad_vault_tls_ca_file: ''
+nomad_vault_tls_cert_file: ''
+nomad_vault_tls_key_file: ''

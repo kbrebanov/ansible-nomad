@@ -13,6 +13,9 @@ respawn limit 10 10
 kill timeout 10
 
 script
+    if [ -f {{ nomad_env_file }} ]; then
+        . {{ nomad_env_file }}
+    fi
 {% if nomad_client and not nomad_server %}
     exec start-stop-daemon --start --chuid {{ nomad_user }} --group {{ nomad_group }} --pidfile {{ nomad_pid_file }} --make-pidfile --exec {{ nomad_install_dir }}/nomad -- agent -client -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1
 {% endif %}
