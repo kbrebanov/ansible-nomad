@@ -269,13 +269,13 @@ vault {
   tls_skip_verify = false
 {% endif %}
 
-{% if nomad_vault_ca_file %}
-  ca_file = "{{ nomad_vault_ca_file }}"
+{% if nomad_vault_tls_ca_file %}
+  ca_file = "{{ nomad_vault_tls_ca_file }}"
 {% endif %}
 
-{% if nomad_vault_cert_file and nomad_vault_key_file %}
-  cert_file = "{{ nomad_vault_cert_file }}"
-  key_file = "{{ nomad_vault_key_file }}"
+{% if nomad_vault_tls_cert_file and nomad_vault_tls_key_file %}
+  cert_file = "{{ nomad_vault_tls_cert_file }}"
+  key_file = "{{ nomad_vault_tls_key_file }}"
 {% endif %}
 }
 {% endif %}
