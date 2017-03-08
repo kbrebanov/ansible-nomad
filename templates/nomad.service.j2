@@ -1,0 +1,17 @@
+[Unit]
+Description=Nomad Agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Environment="GOMAXPROCS=`nproc`"
+User={{ nomad_user }}
+Group={{ nomad_group }}
+ExecStart=/bin/sh -c 'exec {{ nomad_install_dir }}/nomad agent -config={{ nomad_config_dir }} >> {{ nomad_log_file }} 2>&1'
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+LimitNOFILE=65536
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

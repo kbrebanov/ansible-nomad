@@ -15,43 +15,109 @@ enable_debug = false
 {% endif %}
 ports {
   http = {{ nomad_ports_http }}
-{% if nomad_ports_rpc and nomad_server %}
+{% if nomad_ports_rpc %}
   rpc = {{ nomad_ports_rpc }}
 {% endif %}
-{% if nomad_ports_serf and nomad_server %}
+{% if nomad_ports_serf %}
   serf = {{ nomad_ports_serf }}
 {% endif %}
 }
 addresses {
   http = "{{ nomad_addresses_http }}"
-{% if nomad_addresses_rpc and nomad_server %}
+{% if nomad_addresses_rpc %}
   rpc = "{{ nomad_addresses_rpc }}"
 {% endif %}
-{% if nomad_addresses_serf and nomad_server %}
+{% if nomad_addresses_serf %}
   serf = "{{ nomad_addresses_serf }}"
 {% endif %}
 }
 advertise {
-{% if nomad_advertise_rpc and nomad_ports_rpc and nomad_server %}
+{% if nomad_advertise_http and nomad_ports_http %}
+  http = "{{ nomad_advertise_http }}:{{ nomad_ports_http }}"
+{% endif %}
+{% if nomad_advertise_rpc and nomad_ports_rpc %}
   rpc = "{{ nomad_advertise_rpc }}:{{ nomad_ports_rpc }}"
 {% endif %}
-{% if nomad_advertise_serf and nomad_ports_serf and nomad_server %}
+{% if nomad_advertise_serf and nomad_ports_serf %}
   serf = "{{ nomad_advertise_serf }}:{{ nomad_ports_serf }}"
 {% endif %}
 }
+
+{% if nomad_http_api_response_headers %}
+  http_api_response_headers {
+{% for header in nomad_http_api_response_headers %}
+     "{{ header }}" = "{{ nomad_http_api_response_headers[header] }}"
+{% endfor %}
+  }
+{% endif %}
+
 {% if nomad_telemetry %}
 telemetry {
+{% if nomad_telemetry_publish_allocation_metrics %}
+  publish_allocation_metrics = true
+{% else %}
+  publish_allocation_metrics = false
+{% endif %}
+{% if nomad_telemetry_publish_node_metrics %}
+  publish_node_metrics = true
+{% else %}
+  publish_node_metrics = false
+{% endif %}
 {% if nomad_telemetry_statsite_address %}
   statsite_address = "{{ nomad_telemetry_statsite_address }}"
 {% endif %}
 {% if nomad_telemetry_statsd_address %}
   statsd_address = "{{ nomad_telemetry_statsd_address }}"
 {% endif %}
+{% if nomad_telemetry_datadog_address %}
+  datadog_address = "{{ nomad_telemetry_datadog_address }}"
+{% endif %}
 {% if nomad_telemetry_disable_hostname %}
   disable_hostname = true
 {% else %}
   disable_hostname = false
 {% endif %}
+
+{% if nomad_telemetry_circonus_api_token %}
+  circonus_api_token = "{{ nomad_telemetry_circonus_api_token }}"
+  circonus_api_app = "{{ nomad_telemetry_circonus_api_app }}"
+  circonus_api_url = "{{ nomad_telemetry_circonus_api_url }}"
+  circonus_submission_interval = "{{ nomad_telemetry_circonus_submission_interval }}"
+
+{% if nomad_telemetry_circonus_submission_url %}
+  circonus_submission_url = "{{ nomad_telemetry_circonus_submission_url }}"
+{% endif %}
+{% if nomad_telemetry_circonus_check_id %}
+  circonus_check_id = "{{ nomad_telemetry_circonus_check_id }}"
+{% endif %}
+
+{% if nomad_telemetry_circonus_force_metric_activation %}
+  circonus_force_metric_activation = true
+{% else %}
+  circonus_force_metric_activation = false
+{% endif %}
+{% if nomad_telemetry_circonus_check_instance_id %}
+  circonus_check_instance_id = "{{ nomad_telemetry_circonus_check_instance_id }}"
+{% endif %}
+
+{% if nomad_telemetry_circonus_check_search_tag %}
+  circonus_check_search_tag = "{{ nomad_telemetry_circonus_check_search_tag }}"
+{% endif %}
+{% if nomad_telemetry_circonus_check_display_name %}
+  circonus_check_display_name = "{{ nomad_telemetry_circonus_check_display_name }}"
+{% endif %}
+{% if nomad_telemetry_circonus_check_tags %}
+  circonus_check_tags = "{{ nomad_telemetry_circonus_check_tags }}"
+{% endif %}
+{% if nomad_telemetry_circonus_broker_id %}
+  circonus_broker_id = "{{ nomad_telemetry_circonus_broker_id }}"
+{% endif %}
+{% if nomad_telemetry_circonus_broker_select_tag %}
+  circonus_broker_select_tag = "{{ nomad_telemetry_circonus_broker_select_tag }}"
+{% endif %}
+
+{% endif %}
+
 }
 {% endif %}
 {% if nomad_leave_on_interrupt %}
@@ -81,4 +147,135 @@ disable_update_check = false
 disable_anonymous_signature = true
 {% else %}
 disable_anonymous_signature = false
+{% endif %}
+
+{% if nomad_tls %}
+tls {
+{% if nomad_tls_http %}
+  http = true
+{% else %}
+  http = false
+{% endif %}
+
+{% if nomad_tls_rpc %}
+  rpc = true
+{% else %}
+  rpc = false
+{% endif %}
+
+{% if nomad_tls_verify_server_hostname %}
+  verify_server_hostname = true
+{% else %}
+  verify_server_hostname = false
+{% endif %}
+
+{% if nomad_tls_ca_file %}
+  ca_file = "{{ nomad_tls_ca_file }}"
+{% endif %}
+
+{% if nomad_tls_cert_file and nomad_tls_key_file %}
+  cert_file = "{{ nomad_tls_cert_file }}"
+  key_file = "{{ nomad_tls_key_file }}"
+{% endif %}
+}
+{% endif %}
+
+{% if nomad_consul %}
+consul {
+  address = "{{ nomad_consul_address }}"
+
+{% if nomad_consul_auto_advertise %}
+  auto_advertise = true
+{% else %}
+  auto_advertise = false
+{% endif %}
+
+{% if nomad_consul_checks_use_advertise %}
+  checks_use_advertise = true
+{% else %}
+  checks_use_advertise = false
+{% endif %}
+
+{% if nomad_consul_server_auto_join %}
+  server_auto_join = true
+{% else %}
+  server_auto_join = false
+{% endif %}
+
+{% if nomad_consul_client_auto_join %}
+  client_auto_join = true
+{% else %}
+  client_auto_join = false
+{% endif %}
+
+{% if nomad_consul_server_service_name %}
+  server_service_name = "{{ nomad_consul_server_service_name }}"
+{% endif %}
+
+{% if nomad_consul_client_service_name %}
+  client_service_name = "{{ nomad_consul_client_service_name }}"
+{% endif %}
+
+{% if nomad_consul_auth %}
+  auth = "{{ nomad_consul_auth }}"
+{% endif %}
+
+{% if nomad_consul_ssl %}
+  ssl = true
+{% if nomad_consul_verify_ssl %}
+  verify_ssl = true
+{% else %}
+  verify_ssl = false
+{% endif %}
+{% endif %}
+
+{% if nomad_consul_ca_file %}
+  ca_file = "{{ nomad_consul_ca_file }}"
+{% endif %}
+
+{% if nomad_consul_cert_file and nomad_consul_key_file %}
+  cert_file = "{{ nomad_consul_cert_file }}"
+  key_file = "{{ nomad_consul_key_file }}"
+{% endif %}
+}
+{% endif %}
+
+{% if nomad_vault %}
+vault {
+  enabled = true
+  address = "{{ nomad_vault_address }}"
+
+{% if nomad_vault_allow_unauthenticated %}
+  allow_unauthenticated = true
+{% else %}
+  allow_unauthenticated = false
+{% endif %}
+
+{% if nomad_vault_tls_server_name %}
+  tls_server_name = "{{ nomad_vault_tls_server_name }}"
+{% endif %}
+
+{% if nomad_vault_token %}
+  token = "{{ nomad_vault_token }}"
+{% endif %}
+
+{% if nomad_vault_task_token_ttl %}
+  task_token_ttl = "{{ nomad_vault_task_token_ttl }}"
+{% endif %}
+
+{% if nomad_vault_tls_skip_verify %}
+  tls_skip_verify = true
+{% else %}
+  tls_skip_verify = false
+{% endif %}
+
+{% if nomad_vault_tls_ca_file %}
+  ca_file = "{{ nomad_vault_tls_ca_file }}"
+{% endif %}
+
+{% if nomad_vault_tls_cert_file and nomad_vault_tls_key_file %}
+  cert_file = "{{ nomad_vault_tls_cert_file }}"
+  key_file = "{{ nomad_vault_tls_key_file }}"
+{% endif %}
+}
 {% endif %}

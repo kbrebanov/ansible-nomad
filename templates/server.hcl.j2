@@ -18,6 +18,9 @@ server {
 {% if nomad_server_num_schedulers and nomad_server %}
   num_schedulers = {{ nomad_server_num_schedulers }}
 {% endif %}
+{% if nomad_server_encrypt and nomad_server %}
+  encrypt = "{{ nomad_server_encrypt }}"
+{% endif %}
 {% if nomad_server_enabled_schedulers and nomad_server %}
   enabled_schedulers = [
 {% for scheduler in nomad_server_enabled_schedulers %}

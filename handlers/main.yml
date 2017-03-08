@@ -1,6 +1,10 @@
 ---
 # handlers file for nomad
 
+- name: reload systemd
+  become: yes
+  command: systemctl daemon-reload
+
 - name: restart nomad
   become: yes
   service:

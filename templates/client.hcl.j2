@@ -6,6 +6,29 @@ client {
 {% else %}
   enabled = false
 {% endif %}
+{% if nomad_client_max_kill_timeout and nomad_client %}
+  max_kill_timeout = "{{ nomad_client_max_kill_timeout }}"
+{% endif %}
+{% if nomad_client_network_interface and nomad_client %}
+  network_interface = "{{ nomad_client_network_interface }}"
+{% endif %}
+{% if nomad_client_network_speed and nomad_client %}
+  network_speed = "{{ nomad_client_network_speed }}"
+{% endif %}
+  reserved = {
+{% if nomad_client_reserved_cpu and nomad_client %}
+      cpu = {{ nomad_client_reserved_cpu }}
+{% endif %}
+{% if nomad_client_reserved_memory and nomad_client %}
+      memory = {{ nomad_client_reserved_memory }}
+{% endif %}
+{% if nomad_client_reserved_disk and nomad_client %}
+      disk = {{ nomad_client_reserved_disk }}
+{% endif %}
+{% if nomad_client_reserved_ports and nomad_client %}
+      reserved_ports = "{{ nomad_client_reserved_ports }}"
+{% endif %}
+  }
 {% if nomad_client_state_dir and nomad_client %}
   state_dir = "{{ nomad_client_state_dir }}"
 {% endif %}
@@ -31,8 +54,22 @@ client {
 {% endif %}
 {% if nomad_client_meta and nomad_client %}
   meta {
-{% for meta in nomad_client %}
+{% for meta in nomad_client_meta %}
     "{{ meta }}" = "{{ nomad_client_meta[meta] }}"
+{% endfor %}
+  }
+{% endif %}
+{% if nomad_client_options and nomad_client %}
+  options {
+{% for option in nomad_client_options %}
+     "{{ option }}" = "{{ nomad_client_options[option] }}"
+{% endfor %}
+  }
+{% endif %}
+{% if nomad_client_chroot_env and nomad_client %}
+  chroot_env {
+{% for chroot in nomad_client_chroot_env %}
+     "{{ chroot }}" = "{{ nomad_client_chroot_env[chroot] }}"
 {% endfor %}
   }
 {% endif %}
