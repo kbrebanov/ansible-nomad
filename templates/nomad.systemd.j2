@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+[Unit]
+Description=Service for nomad
+After=network-online.target local-fs.target
+Requires=network-online.target
+Conflicts=shutdown.target
+
+[Service]
+User={{ nomad_user }}
+Group={{ nomad_group }}
+PIDFile={{ nomad_pid_file }}
+PermissionsStartOnly=true
+Type=forking
+ExecStartPre=/bin/sh -c 'touch {{ nomad_log_file }} && chown {{ nomad_user }}:{{ nomad_user }} {{ nomad_log_file }}'
+ExecStartPre=/bin/sh -c 'touch {{ nomad_pid_file }} && chown {{ nomad_user }}:{{ nomad_user }} {{ nomad_pid_file }}'
+ExecStart=/bin/sh -c '{{ nomad_install_dir }}/nomad agent -{% if nomad_server %}server{% else %}client{% endif %} -config={{ nomad_config_dir }} > {{ nomad_log_file }} 2>&1 & echo $! > {{ nomad_pid_file }}'
+ExecStopPost=/bin/rm -f {{ nomad_pid_file }}
+KillMode=process
+KillSignal=SIGTERM
+TimeoutStopSec=10
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

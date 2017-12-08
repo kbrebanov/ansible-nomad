@@ -133,6 +133,21 @@
     - restart nomad
   tags:
     - nomad
+  when: not (ansible_distribution == "Ubuntu" and ansible_distribution_version|int >= 16)
+    
+- name: Create Nomad systemd configuration
+  become: yes
+  template:
+    src: nomad.systemd.j2
+    dest: /etc/systemd/system/nomad.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nomad
+  tags:
+    - nomad
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version|int >= 16
 
 - name: Create Nomad configuration file
   become: yes
